@@ -39,22 +39,22 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: (allStudentProvider.jumlahStudent == 0)
-          ? Container(
+      body: (allStudentProvider.jumlahStudents == 0)
+          ? SizedBox(
               width: double.infinity,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+                  const Text(
                     "No Data",
                     style: TextStyle(fontSize: 25),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   OutlinedButton(
                     onPressed: () {
                       Navigator.pushNamed(context, AddStudent.routeName);
                     },
-                    child: Text(
+                    child: const Text(
                       "Add Student",
                       style: TextStyle(fontSize: 20),
                     ),
@@ -63,9 +63,9 @@ class _HomePageState extends State<HomePage> {
               ),
             )
           : ListView.builder(
-              itemCount: allStudentProvider.jumlahStudent,
+              itemCount: allStudentProvider.jumlahStudents,
               itemBuilder: (context, index) {
-                var id = allStudentProvider.allStudent[index].id;
+                var id = allStudentProvider.allStudents[index].id;
                 return ListTile(
                   onTap: () {
                     Navigator.pushNamed(
@@ -75,13 +75,13 @@ class _HomePageState extends State<HomePage> {
                     );
                   },
                   title: Text(
-                    allStudentProvider.allStudent[index].name,
+                    allStudentProvider.allStudents[index].name,
                   ),
                   trailing: IconButton(
                     onPressed: () {
                       allStudentProvider.deletePlayer(id, context);
                     },
-                    icon: Icon(Icons.delete),
+                    icon: const Icon(Icons.delete),
                   ),
                 );
               },

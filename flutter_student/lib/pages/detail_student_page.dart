@@ -6,6 +6,8 @@ import '../providers/students.dart';
 class DetailStudent extends StatelessWidget {
   static const routeName = "/detail-student";
 
+  const DetailStudent({super.key});
+
   @override
   Widget build(BuildContext context) {
     final students = Provider.of<Students>(context, listen: false);
@@ -19,7 +21,7 @@ class DetailStudent extends StatelessWidget {
         TextEditingController(text: selectStudent.major);
     return Scaffold(
       appBar: AppBar(
-        title: Text("DETAIL PLAYER"),
+        title: const Text("DETAIL PLAYER"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -29,24 +31,24 @@ class DetailStudent extends StatelessWidget {
               TextFormField(
                 autocorrect: false,
                 autofocus: true,
-                decoration: InputDecoration(labelText: "Nama"),
+                decoration: const InputDecoration(labelText: "Nama"),
                 textInputAction: TextInputAction.next,
                 controller: nameController,
               ),
               TextFormField(
                 autocorrect: false,
-                decoration: InputDecoration(labelText: "Umur"),
+                decoration: const InputDecoration(labelText: "Umur"),
                 textInputAction: TextInputAction.next,
                 controller: ageController,
               ),
               TextFormField(
                 autocorrect: false,
-                decoration: InputDecoration(labelText: "Major"),
+                decoration: const InputDecoration(labelText: "Major"),
                 textInputAction: TextInputAction.done,
                 controller: majorController,
                 onEditingComplete: () {
                   students.editStudent(
-                    studentId as String,
+                    studentId,
                     nameController.text,
                     ageController.text,
                     majorController.text,
@@ -55,14 +57,14 @@ class DetailStudent extends StatelessWidget {
                   Navigator.pop(context);
                 },
               ),
-              SizedBox(height: 50),
+              const SizedBox(height: 50),
               Container(
                 width: double.infinity,
                 alignment: Alignment.centerRight,
                 child: OutlinedButton(
                   onPressed: () {
                     students.editStudent(
-                    studentId as String,
+                    studentId,
                     nameController.text,
                     ageController.text,
                     majorController.text,
@@ -70,7 +72,7 @@ class DetailStudent extends StatelessWidget {
                   );
                     Navigator.pop(context);
                   },
-                  child: Text(
+                  child: const Text(
                     "Edit",
                     style: TextStyle(
                       fontSize: 18,

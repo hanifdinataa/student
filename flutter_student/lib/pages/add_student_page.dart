@@ -4,22 +4,24 @@ import 'package:provider/provider.dart';
 import '../providers/students.dart';
 
 class AddStudent extends StatelessWidget {
-  static const routeName = "/add-student";
+  static const routeName = "/add-students";
   final TextEditingController nameController = TextEditingController();
   final TextEditingController ageController = TextEditingController();
   final TextEditingController majorController = TextEditingController();
 
+  AddStudent({super.key});
+
   @override
   Widget build(BuildContext context) {
-    final players = Provider.of<Students>(context, listen: false);
+    final students = Provider.of<Students>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
-        title: Text("ADD Student"),
+        title: const Text("ADD Student"),
         actions: [
           IconButton(
-            icon: Icon(Icons.save),
+            icon: const Icon(Icons.save),
             onPressed: () {
-              players
+              students
                   .addStudent(
                 nameController.text,
                 ageController.text,
@@ -29,7 +31,7 @@ class AddStudent extends StatelessWidget {
                 (response) {
                   print("Kembali ke Home & kasih notif snack bar");
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
+                    const SnackBar(
                       content: Text("Berhasil ditambahkan"),
                       duration: Duration(seconds: 2),
                     ),
@@ -49,23 +51,23 @@ class AddStudent extends StatelessWidget {
               TextFormField(
                 autocorrect: false,
                 autofocus: true,
-                decoration: InputDecoration(labelText: "Nama"),
+                decoration: const InputDecoration(labelText: "Nama"),
                 textInputAction: TextInputAction.next,
                 controller: nameController,
               ),
               TextFormField(
                 autocorrect: false,
-                decoration: InputDecoration(labelText: "Umur"),
+                decoration: const InputDecoration(labelText: "Umur"),
                 textInputAction: TextInputAction.next,
                 controller: ageController,
               ),
               TextFormField(
                 autocorrect: false,
-                decoration: InputDecoration(labelText: "Major"),
+                decoration: const InputDecoration(labelText: "Major"),
                 textInputAction: TextInputAction.done,
                 controller: majorController,
                 onEditingComplete: () {
-                  players
+                  students
                       .addStudent(
                     nameController.text,
                     ageController.text,
@@ -75,7 +77,7 @@ class AddStudent extends StatelessWidget {
                     (response) {
                       print("Kembali ke Home & kasih notif snack bar");
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
+                        const SnackBar(
                           content: Text("Berhasil ditambahkan"),
                           duration: Duration(seconds: 2),
                         ),
@@ -85,13 +87,13 @@ class AddStudent extends StatelessWidget {
                   );
                 },
               ),
-              SizedBox(height: 50),
+              const SizedBox(height: 50),
               Container(
                 width: double.infinity,
                 alignment: Alignment.centerRight,
                 child: OutlinedButton(
                   onPressed: () {
-                    players
+                    students
                         .addStudent(
                       nameController.text,
                       ageController.text,
@@ -101,7 +103,7 @@ class AddStudent extends StatelessWidget {
                       (response) {
                         print("Kembali ke Home & kasih notif snack bar");
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
+                          const SnackBar(
                             content: Text("Berhasil ditambahkan"),
                             duration: Duration(seconds: 2),
                           ),
@@ -110,7 +112,7 @@ class AddStudent extends StatelessWidget {
                       },
                     );
                   },
-                  child: Text(
+                  child: const Text(
                     "Submit",
                     style: TextStyle(
                       fontSize: 18,

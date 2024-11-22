@@ -1,64 +1,63 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-
 import '../models/student.dart';
 
 class Students with ChangeNotifier {
-  final List<Student> _allStudent = [];
+  final List<Student> _allStudents = [];
 
-  List<Student> get allStudent => _allStudent;
+  List<Student> get allStudents => _allStudents;
 
-  int get jumlahStudent => _allStudent.length;
+  int get jumlahStudents => _allStudents.length;
 
   Student selectById(String id) =>
       // ignore: unrelated_type_equality_checks
-      _allStudent.firstWhere((element) => element.id == id);
+      _allStudents.firstWhere((element) => element.id == id);
 
   Future<void> addStudent(String name, String age, String major) {
-    Uri url = Uri.parse("http://localhost/flutter/student.php/student");
-    return http
-        .post(
-      url,
-      body: json.encode(
-        {
-          "name": name,
-          "age": age,
-          "major": major,
-        },
-      ),
-    )
-        .then(
-      (response) {
-        print("THEN FUNCTION");
-        print(json.decode(response.body));
-        Student student = selectById(json.decode(response.body)["id"]);
-
-        _allStudent.add(
-          Student(
-            id: json.decode(response.body)["id"],
-            name: name,
-            age: age,
-            major: major,
-          ),
-        );
-
-        notifyListeners();
+  Uri url = Uri.parse("http://localhost/flutter/student.php/students");
+  return http
+      .post(
+    url,
+    body: json.encode(
+      {
+        "name": name,
+        "age": age,
+        "major": major,
       },
-    );
-  }
+    ),
+  )
+      .then(
+    (response) {
+      final responseData = json.decode(response.body);
+      print("THEN FUNCTION");
+      print(responseData);
+
+      _allStudents.add(
+        Student(
+          id: responseData["id"], // Menggunakan ID dari respons
+          name: name,
+          age: age,
+          major: major,
+        ),
+      );
+
+      notifyListeners();
+    },
+  );
+}
+
 
   void editStudent(
       String id, String name, String age, String major, BuildContext context) {
     Student selectPlayer =
-        _allStudent.firstWhere((element) => element.id == id);
+        _allStudents.firstWhere((element) => element.id == id);
     selectPlayer.name = name;
     selectPlayer.age = age;
     selectPlayer.major = major;
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
+      const SnackBar(
         content: Text("Berhasil diubah"),
         duration: Duration(seconds: 2),
       ),
@@ -67,9 +66,9 @@ class Students with ChangeNotifier {
   }
 
   void deletePlayer(String id, BuildContext context) {
-    _allStudent.removeWhere((element) => element.id == id);
+    _allStudents.removeWhere((element) => element.id == id);
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
+      const SnackBar(
         content: Text("Berhasil dihapus"),
         duration: Duration(milliseconds: 500),
       ),
@@ -78,7 +77,7 @@ class Students with ChangeNotifier {
   }
 
   Future<void> initialData() async {
-    Uri url = Uri.parse("http://localhost/flutter/student.php/student");
+    Uri url = Uri.parse("http://localhost/flutter/student.php/students");
 
     var hasilGetData = await http.get(url);
     // var dataResponse = json.decode(hasilGetData.body) as Map<String, String>;
@@ -87,7 +86,7 @@ class Students with ChangeNotifier {
         List.from(json.decode(hasilGetData.body) as List);
     //print(dataResponse);
     for (int attribute = 0; attribute < dataResponse.length; attribute++) {
-      _allStudent.add(Student(
+      _allStudents.add(Student(
           id: dataResponse[attribute]["id"],
           name: dataResponse[attribute]["name"],
           age: dataResponse[attribute]["age"],
